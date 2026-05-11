@@ -1,0 +1,24 @@
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: anthropic-direct
+  namespace: kagent
+spec:
+  provider: Anthropic
+  model: claude-sonnet-4-6
+  apiKeySecret: anthropic-api-key
+  apiKeySecretKey: ANTHROPIC_API_KEY
+
+---
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: anthropic-via-gateway
+  namespace: kagent
+spec:
+  provider: OpenAI
+  model: claude-sonnet-4-6
+  apiKeySecret: anthropic-api-key
+  apiKeySecretKey: ANTHROPIC_API_KEY
+  openAI:
+    baseUrl: http://agentgateway-proxy.agentgateway-system.svc.cluster.local:3000

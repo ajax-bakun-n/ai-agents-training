@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agentgateway-config
+  namespace: agentgateway-system
+data:
+  config.yaml: |
+    binds:
+      - port: 3000
+        listeners:
+          - routes:
+              - name: anthropic
+                matches:
+                  - path:
+                      pathPrefix: /
+                    headers:
+                      - name: x-provider
+                        value:
+                          exact: anthropic
+                backends:
+                  - ai:
+                      name: anthropic
+                      provider:
+                        anthropic:
+                          model: claude-sonnet-4-6
+                policies:
+                  cors:
+                    allowOrigins: ["*"]
+                    allowHeaders: ["*"]
+
+              - name: openai
+                matches:
+                  - path:
+                      pathPrefix: /
+                    headers:
+                      - name: x-provider
+                        value:
+                          exact: openai
+                backends:
+                  - ai:
+                      name: openai
+                      provider:
+                        openAI:
+                          model: gpt-4o-mini
+                policies:
+                  cors:
+                    allowOrigins: ["*"]
+                    allowHeaders: ["*"]
+
+              - name: default
+                matches:
+                  - path:
+                      pathPrefix: /
+                backends:
+                  - ai:
+                      name: anthropic-default
+                      provider:
+                        anthropic:
+                          model: claude-sonnet-4-6
+                policies:
+                  cors:
+                    allowOrigins: ["*"]
+                    allowHeaders: ["*"]
