@@ -1,0 +1,19 @@
+providers:
+  default: anthropic
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+ui:
+  enabled: true
+
+postgresql:
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi

@@ -1,0 +1,18 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: hello-agent
+  namespace: kagent
+spec:
+  description: Agent using the custom KMCP-built hello tool
+  type: Declarative
+  declarative:
+    modelConfig: anthropic-direct
+    systemMessage: |
+      You are a friendly assistant. Use the hello tool to greet users by name.
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: hello-mcp

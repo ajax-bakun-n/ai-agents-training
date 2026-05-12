@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: ai-agents-training
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/ajax-bakun-n/ai-agents-training
+  ref:
+    branch: master

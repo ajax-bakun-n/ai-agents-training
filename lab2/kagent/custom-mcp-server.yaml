@@ -1,0 +1,11 @@
+apiVersion: kagent.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: hello-mcp
+  namespace: kagent
+spec:
+  transportType: http
+  deployment:
+    image: ghcr.io/ajax-bakun-n/lab2-mcp-server:latest
+    port: 8080
+

@@ -1,0 +1,20 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: k8s-assistant
+  namespace: kagent
+spec:
+  description: Agent that can inspect and manage Kubernetes resources
+  type: Declarative
+  declarative:
+    modelConfig: anthropic-direct
+    systemMessage: |
+      You are a Kubernetes assistant. Use the available tools to inspect cluster
+      resources, check pod status, describe workloads, and retrieve logs.
+      Always confirm destructive actions before executing them.
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: k8s-mcp

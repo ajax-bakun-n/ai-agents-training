@@ -1,0 +1,11 @@
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: k8s-mcp
+  namespace: kagent
+spec:
+  description: Kubernetes operations tool server
+  protocol: STREAMABLE_HTTP
+  url: http://kagent-tools.kagent:8084/mcp
+  timeout: 30s
+  terminateOnClose: true
