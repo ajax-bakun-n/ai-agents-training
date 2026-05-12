@@ -7,7 +7,7 @@ spec:
   description: Agent that can inspect and manage Kubernetes resources
   type: Declarative
   declarative:
-    modelConfig: anthropic-direct
+    modelConfig: ollama-local
     systemMessage: |
       You are a Kubernetes assistant. Use the available tools to inspect cluster
       resources, check pod status, describe workloads, and retrieve logs.

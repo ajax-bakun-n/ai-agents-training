@@ -1,21 +1,23 @@
-.PHONY: apply apply-max gitops secret build push clean
+.PHONY: apply apply-max secret gitops build push clean
+
+# Create API key secret manually before running apply.
+# See README for instructions.
 
 apply:
-	@test -f .env || (echo "copy .env.example to .env and fill in keys" && exit 1)
 	kubectl apply -k .
 
 apply-max:
-	@test -f .env || (echo "copy .env.example to .env and fill in keys" && exit 1)
 	kubectl apply -f kagent/model-config.yaml
 	kubectl apply -f kagent/custom-mcp-server.yaml
 	kubectl apply -f kagent/custom-agent.yaml
 
 secret:
-	@test -f .env || (echo "copy .env.example to .env and fill in keys" && exit 1)
 	kubectl create secret generic anthropic-api-key \
-	  --from-env-file=.env --namespace kagent --dry-run=client -o yaml | kubectl apply -f -
+	  --from-literal=ANTHROPIC_API_KEY=<your-anthropic-api-key> \
+	  --from-literal=OPENAI_API_KEY=<your-openai-api-key> \
+	  --namespace kagent --dry-run=client -o yaml | kubectl apply -f -
 
-gitops: secret
+gitops:
 	kubectl apply -f gitops/gitrepository.yaml
 	kubectl apply -f gitops/kustomization.yaml
 
