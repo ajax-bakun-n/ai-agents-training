@@ -6,6 +6,6 @@ metadata:
 spec:
   description: Document and web search tools
   protocol: STREAMABLE_HTTP
-  url: http://kagent-querydoc.kagent:8080/mcp
+  url: http://search-mcp.kagent.svc.cluster.local:8080/mcp
   timeout: 30s
   terminateOnClose: true

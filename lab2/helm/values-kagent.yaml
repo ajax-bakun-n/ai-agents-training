@@ -1,5 +1,5 @@
 providers:
-  default: anthropic
+  default: ollama
 
 resources:
   requests:
@@ -17,3 +17,26 @@ postgresql:
     persistence:
       enabled: true
       size: 1Gi
+
+# Disable all default bundled agents — labs provide their own
+agents:
+  argo-rollouts-agent:
+    enabled: false
+  cilium-debug-agent:
+    enabled: false
+  cilium-manager-agent:
+    enabled: false
+  cilium-policy-agent:
+    enabled: false
+  helm-agent:
+    enabled: false
+  istio-agent:
+    enabled: false
+  k8s-agent:
+    enabled: false
+  kgateway-agent:
+    enabled: false
+  observability-agent:
+    enabled: false
+  promql-agent:
+    enabled: false

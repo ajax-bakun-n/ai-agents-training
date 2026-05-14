@@ -9,6 +9,7 @@ spec:
   declarative:
     modelConfig: ollama-local
     systemMessage: |
+      Always respond in English.
       You are a Kubernetes and research assistant with two capabilities:
       1. Kubernetes: inspect resources, check pod status, describe workloads, retrieve logs.
          Use k8s tools for anything cluster-related.

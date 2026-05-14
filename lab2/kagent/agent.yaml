@@ -9,6 +9,7 @@ spec:
   declarative:
     modelConfig: ollama-local
     systemMessage: |
+      Always respond in English.
       You are a Kubernetes assistant with web search capability.
       Use k8s tools to inspect cluster resources, check pod status,
       describe workloads, and retrieve logs.

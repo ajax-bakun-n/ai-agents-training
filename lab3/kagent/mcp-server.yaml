@@ -1,3 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: search-mcp-code
+  namespace: kagent
+data:
+  server.py: |
+    import httpx
+    import uvicorn
+    from mcp.server.fastmcp import FastMCP
+    from mcp.server.streamable_http import TransportSecuritySettings
+
+    app = FastMCP(
+        "search-mcp",
+        transport_security=TransportSecuritySettings(enable_dns_rebinding_protection=False),
+    )
+
+    @app.tool()
+    async def web_search(query: str) -> str:
+        """Search the web using DuckDuckGo"""
+        async with httpx.AsyncClient() as c:
+            r = await c.get(
+                "https://api.duckduckgo.com/",
+                params={"q": query, "format": "json", "no_html": "1", "skip_disambig": "1"},
+                follow_redirects=True, timeout=10,
+            )
+            data = r.json()
+        parts = []
+        if data.get("AbstractText"):
+            parts.append(data["AbstractText"])
+            if data.get("AbstractSource"):
+                parts.append("Source: " + data["AbstractSource"])
+        for t in data.get("RelatedTopics", [])[:5]:
+            if isinstance(t, dict) and t.get("Text"):
+                parts.append("- " + t["Text"])
+        return "\n".join(parts) or "No results for: " + query
+
+    @app.tool()
+    async def fetch_url(url: str) -> str:
+        """Fetch content from a URL (max 50KB)"""
+        async with httpx.AsyncClient() as c:
+            r = await c.get(url, follow_redirects=True, timeout=15)
+            return r.text[:50000]
+
+    if __name__ == "__main__":
+        uvicorn.run(app.streamable_http_app(), host="0.0.0.0", port=8080)
+---
 apiVersion: kagent.dev/v1alpha1
 kind: MCPServer
 metadata:
@@ -5,9 +52,18 @@ metadata:
   namespace: kagent
 spec:
   transportType: http
-  deployment:
-    image: ghcr.io/ajax-bakun-n/lab3-search-mcp:latest
-    port: 8080
   httpTransport:
     path: /mcp
     targetPort: 8080
+  deployment:
+    image: python:3.12-slim
+    port: 8080
+    cmd: sh
+    args: ["-c", "pip install -q 'mcp[http]' httpx && python /app/server.py"]
+    volumeMounts:
+      - name: code
+        mountPath: /app
+    volumes:
+      - name: code
+        configMap:
+          name: search-mcp-code
