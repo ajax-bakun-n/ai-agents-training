@@ -1,0 +1,19 @@
+name: k8s-research-agent
+description: Kubernetes and research agent using a custom MCP server
+model: gemini-2.0-flash
+
+instructions: |
+  You are a Kubernetes and research assistant.
+  Use the search tools to find external documentation and the k8s tools
+  to inspect cluster resources.
+
+tools:
+  - type: mcp
+    name: search-mcp
+    url: http://search-mcp.kagent.svc.cluster.local:8080/mcp
+    transport: streamable-http
+
+  - type: mcp
+    name: k8s-mcp
+    url: http://kagent-tools.kagent.svc.cluster.local:8084/mcp
+    transport: streamable-http

@@ -1,18 +1,19 @@
 apiVersion: kagent.dev/v1alpha2
 kind: Agent
 metadata:
-  name: k8s-assistant
+  name: k8s-research-agent
   namespace: kagent
 spec:
-  description: Agent that can inspect and manage Kubernetes resources and search the web
+  description: Kubernetes assistant with internet search capability
   type: Declarative
   declarative:
     modelConfig: ollama-local
     systemMessage: |
-      You are a Kubernetes assistant with web search capability.
-      Use k8s tools to inspect cluster resources, check pod status,
-      describe workloads, and retrieve logs.
-      Use web_search or fetch_url for external documentation or research.
+      You are a Kubernetes and research assistant with two capabilities:
+      1. Kubernetes: inspect resources, check pod status, describe workloads, retrieve logs.
+         Use k8s tools for anything cluster-related.
+      2. Web search: look up documentation, CVEs, release notes, or any external information.
+         Use web_search for factual queries, fetch_url to retrieve a specific page.
       Always confirm destructive actions before executing them.
     tools:
       - type: McpServer

@@ -1,0 +1,13 @@
+apiVersion: kagent.dev/v1alpha1
+kind: MCPServer
+metadata:
+  name: search-mcp
+  namespace: kagent
+spec:
+  transportType: http
+  deployment:
+    image: ghcr.io/ajax-bakun-n/lab3-search-mcp:latest
+    port: 8080
+  httpTransport:
+    path: /mcp
+    targetPort: 8080
