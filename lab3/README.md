@@ -9,8 +9,7 @@ Research:
 
 Development:
 1. Learn kmcp https://www.solo.io/blog/introducing-kmcp
-   Build and deploy your own MCP server using MCPServer CRD:
-     make build && make push
+   Deploy the MCP server (Python FastMCP + DuckDuckGo search, no API key required):
      kubectl apply -f kagent/mcp-server.yaml
    Verify the server is deployed and tools are accessible via kagent UI.
 

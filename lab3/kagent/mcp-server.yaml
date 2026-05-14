@@ -5,10 +5,11 @@ metadata:
   namespace: kagent
 data:
   server.py: |
-    import httpx
     import uvicorn
+    from duckduckgo_search import DDGS
     from mcp.server.fastmcp import FastMCP
     from mcp.server.streamable_http import TransportSecuritySettings
+    import httpx
 
     app = FastMCP(
         "search-mcp",
@@ -16,24 +17,18 @@ data:
     )
 
     @app.tool()
-    async def web_search(query: str) -> str:
-        """Search the web using DuckDuckGo"""
-        async with httpx.AsyncClient() as c:
-            r = await c.get(
-                "https://api.duckduckgo.com/",
-                params={"q": query, "format": "json", "no_html": "1", "skip_disambig": "1"},
-                follow_redirects=True, timeout=10,
-            )
-            data = r.json()
+    def web_search(query: str) -> str:
+        """Search the web using DuckDuckGo (returns real ranked results)"""
+        results = DDGS().text(query, max_results=5)
+        if not results:
+            return "No results for: " + query
         parts = []
-        if data.get("AbstractText"):
-            parts.append(data["AbstractText"])
-            if data.get("AbstractSource"):
-                parts.append("Source: " + data["AbstractSource"])
-        for t in data.get("RelatedTopics", [])[:5]:
-            if isinstance(t, dict) and t.get("Text"):
-                parts.append("- " + t["Text"])
-        return "\n".join(parts) or "No results for: " + query
+        for r in results:
+            parts.append(f"**{r['title']}**")
+            parts.append(r.get("body", ""))
+            parts.append(f"URL: {r['href']}")
+            parts.append("")
+        return "\n".join(parts).strip()
 
     @app.tool()
     async def fetch_url(url: str) -> str:
@@ -59,7 +54,7 @@ spec:
     image: python:3.12-slim
     port: 8080
     cmd: sh
-    args: ["-c", "pip install -q 'mcp[http]' httpx && python /app/server.py"]
+    args: ["-c", "pip install -q 'mcp[http]' httpx duckduckgo-search && python /app/server.py"]
     volumeMounts:
       - name: code
         mountPath: /app
