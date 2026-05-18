@@ -1,37 +1,37 @@
 MCP Sampling / Elicitation / MCP Apps
 
-Beginners:
+Початківці (завдання на сертифікат)
 
 Research:
-1. Identify real technical and business cases that can be implemented with
-   MCP Sampling, Elicitation, or MCP Apps (choose one). Document findings
-   and present at the session.
+1. Ознайомитися з реальними технічними та бізнес-кейсами, де застосовуються
+   MCP Sampling, Elicitation або MCP Apps (обрати один). Задокументувати висновки
+   та представити на сесії.
 
 Development:
-1. Learn kmcp https://www.solo.io/blog/introducing-kmcp
-   Deploy the MCP server (Python FastMCP + DuckDuckGo search, no API key required):
+2. Навчитися kmcp https://www.solo.io/blog/introducing-kmcp
+   Розгорнути MCP сервер (Python FastMCP + DuckDuckGo, без API ключа):
      kubectl apply -f kagent/mcp-server.yaml
-   Verify the server is deployed and tools are accessible via kagent UI.
+   Переконатись що сервер розгорнуто і інструменти доступні в kagent UI.
 
-2. Learn google-agents-cli https://google.github.io/agents-cli/
-   Install: pip install google-agents-cli
-   Configure and deploy your own agent that uses the MCP server above:
+3. Навчитися google-agents-cli https://google.github.io/agents-cli/
+   Встановити: pip install google-agents-cli
+   Налаштувати та розгорнути власного агента:
      agentcli deploy google-agents-cli/agent.yaml
-   Test via the playground (see step 3).
+   Протестувати через playground (крок 4).
 
-3. Test your MCP server and agent:
-     # Inspect MCP server tools interactively
+4. Протестувати MCP сервер та агента:
+     # Переглянути інструменти MCP сервера інтерактивно
      npx @modelcontextprotocol/inspector@0.21.1
 
-     # Test agent via agents-cli playground
+     # Протестувати агента через playground
      agentcli playground
 
-Experienced:
-1. Complete beginner tasks
-2. Development: Implement your own MCP Apps use case end-to-end
+Досвідчені
+1. Завдання початківців
+2. Development: Реалізувати власний end-to-end кейс MCP Apps
 
-Max:
-1. Complete experienced tasks
-2. Development: Implement your own MCP Sampling or Elicitation use case
+Макс
+1. Завдання досвідчених
+2. Development: Реалізувати власний кейс MCP Sampling або Elicitation
 
 Save the results of the work in your own GitHub repository.
