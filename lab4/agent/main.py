@@ -1,8 +1,3 @@
-"""
-Minimal A2A-compliant agent.
-- Serves Agent Card at GET /.well-known/agent.json
-- Handles JSON-RPC 2.0 tasks at POST /
-"""
 import uuid
 from datetime import datetime, timezone
 

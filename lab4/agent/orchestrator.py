@@ -1,7 +1,3 @@
-"""
-Orchestrator: sends a task to another A2A agent and returns the result.
-Usage: python orchestrator.py <agent-url> <message>
-"""
 import sys
 import uuid
 import httpx
