@@ -12,7 +12,7 @@ import uvicorn
 
 app = FastAPI(title="A2A Agent")
 
-AGENT_URL = "http://a2a-agent.kagent.svc.cluster.local:8080"
+AGENT_URL = "https://a2a-agent.deeplearning-internal.ajax.systems"
 
 AGENT_CARD = {
     "name": "Lab4 A2A Agent",

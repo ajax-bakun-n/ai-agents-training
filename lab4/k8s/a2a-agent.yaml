@@ -15,7 +15,7 @@ data:
     AGENT_CARD = {
         "name": "Lab4 A2A Agent",
         "description": "Example A2A agent that echoes tasks back to the caller",
-        "url": "http://a2a-agent.kagent.svc.cluster.local:8080",
+        "url": "https://a2a-agent.deeplearning-internal.ajax.systems",
         "version": "1.0.0",
         "capabilities": {"streaming": False, "pushNotifications": False, "stateTransitionHistory": True},
         "defaultInputModes": ["text/plain"],
