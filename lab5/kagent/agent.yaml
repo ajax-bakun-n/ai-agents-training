@@ -1,0 +1,20 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: observability-agent
+  namespace: kagent
+spec:
+  type: Declarative
+  declarative:
+    modelConfig: anthropic
+    systemMessage: |
+      You are an observability assistant with web search capability.
+      All your tool calls are traced and forwarded to Arize Phoenix for analysis and evaluation.
+      When asked about infrastructure, monitoring, or tracing, provide detailed technical responses.
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: MCPServer
+          name: instrumented-mcp
+          toolNames: []

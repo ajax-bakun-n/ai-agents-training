@@ -1,0 +1,20 @@
+# Patch agentgateway Helm values to enable OpenTelemetry telemetry export to Phoenix
+# kubectl patch cm agentgateway-config -n agentgateway-system --patch-file this file
+# or merge with lab1 Helm values during upgrade:
+#   helm upgrade agentgateway ... -f lab1/helm/values.yaml -f lab5/helm/values-agentgateway-otel.yaml
+
+config:
+  telemetry:
+    metrics:
+      exporters:
+        - type: prometheus
+          port: 9090
+    tracing:
+      exporters:
+        - type: otlp
+          endpoint: "http://phoenix.phoenix.svc.cluster.local:4317"
+          protocol: grpc
+          insecure: true
+      sampling:
+        type: parentbased_traceidratio
+        ratio: 1.0

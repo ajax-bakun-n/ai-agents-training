@@ -1,0 +1,26 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: rag-agent
+  namespace: kagent
+spec:
+  type: Declarative
+  declarative:
+    modelConfig: anthropic
+    systemMessage: |
+      You are a knowledge assistant with access to a RAG (Retrieval-Augmented Generation) system
+      backed by a Qdrant vector database and Gemini embeddings.
+
+      Use the available tools to:
+      - ingest_document: add new documents to the knowledge base
+      - search_knowledge_base: retrieve relevant context before answering questions
+
+      Always search the knowledge base first when answering domain-specific questions.
+      Cite the retrieved context in your response.
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: MCPServer
+          name: rag-mcp
+          toolNames: []

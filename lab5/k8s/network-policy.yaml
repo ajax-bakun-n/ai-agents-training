@@ -1,0 +1,33 @@
+# Agent Sandbox network policy example: restrict MCP server access to kagent namespace only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kagent-to-mcp
+  namespace: kagent
+spec:
+  podSelector:
+    matchLabels:
+      app: instrumented-mcp
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kagent
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+# Deny all other ingress to MCP server pods by default
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: kagent
+spec:
+  podSelector:
+    matchLabels:
+      app: instrumented-mcp
+  policyTypes:
+    - Ingress

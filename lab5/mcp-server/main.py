@@ -1,0 +1,37 @@
+import os
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.resources import Resource
+from mcp.server.fastmcp import FastMCP
+from duckduckgo_search import DDGS
+
+resource = Resource.create({"service.name": "lab5-mcp-server"})
+provider = TracerProvider(resource=resource)
+exporter = OTLPSpanExporter(
+    endpoint=os.getenv("PHOENIX_COLLECTOR_ENDPOINT", "http://localhost:4317"),
+    insecure=True,
+)
+provider.add_span_processor(BatchSpanProcessor(exporter))
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer("lab5-mcp-server")
+
+app = FastMCP("instrumented-tools")
+
+
+@app.tool()
+def web_search(query: str) -> str:
+    """Search the web using DuckDuckGo"""
+    with tracer.start_as_current_span("mcp.tool.web_search") as span:
+        span.set_attribute("tool.name", "web_search")
+        span.set_attribute("search.query", query)
+        with DDGS() as ddgs:
+            results = list(ddgs.text(query, max_results=5))
+        output = "\n".join(f"{r['title']}: {r['body']}" for r in results)
+        span.set_attribute("search.result_count", len(results))
+        return output
+
+
+if __name__ == "__main__":
+    app.run(transport="streamable-http", host="0.0.0.0", port=8080)

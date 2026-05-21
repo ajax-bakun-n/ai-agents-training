@@ -8,5 +8,7 @@
 | [lab2](lab2/) | MCP Tool Servers and Agents with Kagent |
 | [lab3](lab3/) | MCP Sampling / Elicitation / MCP Apps |
 | [lab4](lab4/) | A2A Protocol — Agent-to-Agent Communication |
+| [lab5](lab5/) | Observability — Tracing, Metrics & Evaluation |
+| [lab6](lab6/) | RAG Integration |
 
 Кожна лабораторна містить три треки: **Початківці** (завдання на сертифікат), **Досвідчені**, **Макс**.

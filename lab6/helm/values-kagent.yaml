@@ -1,0 +1,9 @@
+# Kagent values for lab6 — reuses lab1 infrastructure
+# Merge with lab1/helm/values.yaml during upgrade if needed:
+#   helm upgrade kagent ... -f lab1/helm/values.yaml -f lab6/helm/values-kagent.yaml
+
+kagent:
+  # Qdrant from lab4 is used as the vector store; no additional components needed
+  extraEnv:
+    - name: QDRANT_URL
+      value: "http://qdrant.qdrant.svc.cluster.local:6333"

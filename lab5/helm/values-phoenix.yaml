@@ -1,0 +1,36 @@
+# Arize Phoenix — self-hosted observability & evaluation platform
+# helm repo add arize-phoenix https://arizeai.github.io/phoenix-helm/
+# helm install phoenix arize-phoenix/phoenix -n phoenix --create-namespace -f values-phoenix.yaml
+
+replicaCount: 1
+
+image:
+  repository: arizephoenix/phoenix
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 6006
+  grpcPort: 4317
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+env:
+  PHOENIX_ENABLE_AUTH: "false"
+  PHOENIX_PORT: "6006"
+  # OTLP gRPC collector listens on 4317
+  PHOENIX_GRPC_PORT: "4317"
