@@ -10,5 +10,6 @@
 | [lab4](lab4/) | A2A Protocol — Agent-to-Agent Communication |
 | [lab5](lab5/) | Observability — Tracing, Metrics & Evaluation |
 | [lab6](lab6/) | RAG Integration |
+| [lab7](lab7/) | Фінальна робота — Vin's Questions: Research & Evaluation |
 
 Кожна лабораторна містить три треки: **Початківці** (завдання на сертифікат), **Досвідчені**, **Макс**.
